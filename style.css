@@ -1,0 +1,142 @@
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: rgb(238,174,202);
+    background: radial-gradient(circle, rgba(238,174,202,1) 0%, rgba(148,187,233,1) 100%);
+    margin: 0;
+    font-family: "IBM Plex Mono", monospace;
+    color: #222;
+}
+
+.level {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    margin-top: 20px;
+}
+
+.module {
+    display: flex;
+    position: relative;
+    padding: 15px;
+    border: 5px solid #222;
+    border-radius: 10px;
+    background: #333;
+}
+
+.digit {
+    position: relative;
+    width: 60px;
+    height: 110px;
+    margin: 15px;
+}
+
+.digit.dot {
+    width: 10px;
+    margin-right: 5px;
+}
+
+.segment {
+    position: absolute;
+    width: 40px;
+    height: 10px;
+    background-color: #5553;
+    transition: background-color 0.3s;
+}
+
+.segment.on {
+    background-color: red;
+}
+
+.segment.a {
+    left: 10px;
+}
+
+.segment.b {
+    right: 0;
+    transform: rotate(-90deg);
+    transform-origin: bottom right;
+}
+
+.segment.c {
+    right: 0;
+    transform: translateY(50px) rotate(-90deg);
+    transform-origin: bottom right;
+}
+
+.segment.d {
+    left: 10px;
+    transform: translateY(100px);
+}
+
+.segment.e {
+    left: 0;
+    transform: translateY(50px) rotate(90deg);
+    transform-origin: bottom left;
+}
+
+.segment.f {
+    left: 0;
+    transform: rotate(90deg);
+    transform-origin: bottom left;
+}
+
+.segment.g {
+    left: 10px;
+    transform: translateY(50px);
+}
+
+.segment.dot {
+    width: 10px;
+    bottom: 0;
+}
+
+.module-text {
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    font-family: "IBM Plex Mono", monospace;
+    font-style: italic;
+    color: #aaa;
+}
+
+.play-button {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 50px;
+    height: 50px;
+    background-color: #222;
+    border: 5px solid #333;
+    border-radius: 50%;
+    color: white;
+    font-size: 24px;
+    margin-left: 20px;
+    cursor: pointer;
+    transition: transform 0.1s ease-in-out;
+}
+
+.play-button.pulse {
+    transform: scale(1.2);
+}
+
+#voice-select {
+    margin-left: 10px;
+    padding: 5px;
+    font-family: "IBM Plex Mono", monospace;
+    border: 1px solid #333;
+    border-radius: 5px;
+    background-color: #fff;
+    color: #222;
+}
+
+.level p {
+    font-family: "IBM Plex Mono", monospace;
+    font-style: italic;
+    color: #222;
+    margin-top: 20px;
+}
