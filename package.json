@@ -1,0 +1,22 @@
+{
+  "name": "metreo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "metreo/node_modules/.bin/next dev",
+    "build": "metreo/node_modules/.bin/next build",
+    "start": "metreo/node_modules/.bin/next start",
+    "lint": "metreo/node_modules/.bin/next lint"
+  },
+  "dependencies": {
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "next": "15.3.5"
+  },
+  "devDependencies": {
+    "typescript": "^5",
+    "@types/node": "^20",
+    "@types/react": "^19",
+    "@types/react-dom": "^19"
+  }
+}
