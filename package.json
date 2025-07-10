@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "metreo/node_modules/.bin/next dev",
-    "build": "metreo/node_modules/.bin/next build",
-    "start": "metreo/node_modules/.bin/next start",
-    "lint": "metreo/node_modules/.bin/next lint"
+    "dev": "node_modules/.bin/next dev",
+    "build": "node_modules/.bin/next build",
+    "start": "node_modules/.bin/next start",
+    "lint": "node_modules/.bin/next lint"
   },
   "dependencies": {
     "react": "^19.0.0",
