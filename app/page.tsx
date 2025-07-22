@@ -6,27 +6,35 @@ const Metronome = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [bpm, setBpm] = useState(120);
   const [soundType, setSoundType] = useState('sound-native');
+  const [currentBeat, setCurrentBeat] = useState(0);
+  const beatsPerMeasure = 4;
 
   const [tapTimes, setTapTimes] = useState<number[]>([]);
   const tapTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const audioContextRef = useRef<AudioContext | null>(null);
   const timerRef = useRef<NodeJS.Timeout | null>(null);
-  const abletonClickBufferRef = useRef<AudioBuffer | null>(null);
+
+  const buffersRef = useRef<{
+    abletonAccent: AudioBuffer | null;
+    abletonNonAccent: AudioBuffer | null;
+  }>({
+    abletonAccent: null,
+    abletonNonAccent: null,
+  });
 
   const loadAbletonClickSound = useCallback(async () => {
     if (audioContextRef.current) {
       try {
-        const response = await fetch('sounds/1_1.wav');
-        const arrayBuffer = await response.arrayBuffer();
-        abletonClickBufferRef.current = await audioContextRef.current.decodeAudioData(arrayBuffer);
+        buffersRef.current.abletonNonAccent = await audioContextRef.current.decodeAudioData(await (await fetch('sounds/1_1.wav')).arrayBuffer());
+        buffersRef.current.abletonAccent = await audioContextRef.current.decodeAudioData(await (await fetch('sounds/1_2.wav')).arrayBuffer());
       } catch (error) {
         console.error('Error loading Ableton click sound:', error);
       }
     }
   }, []);
 
-  const playClick = () => {
+  const playClick = useCallback((isAccent: boolean) => {
     if (audioContextRef.current) {
       if (soundType === 'sound-native') {
         const oscillator = audioContextRef.current.createOscillator();
@@ -36,43 +44,56 @@ const Metronome = () => {
         gainNode.connect(audioContextRef.current.destination);
 
         oscillator.type = 'sine';
-        oscillator.frequency.setValueAtTime(880, audioContextRef.current.currentTime);
+        oscillator.frequency.setValueAtTime(isAccent ? 880 : 440, audioContextRef.current.currentTime);
 
         gainNode.gain.setValueAtTime(1, audioContextRef.current.currentTime);
         gainNode.gain.exponentialRampToValueAtTime(0.001, audioContextRef.current.currentTime + 0.1);
 
         oscillator.start();
         oscillator.stop(audioContextRef.current.currentTime + 0.1);
-      } else if (soundType === 'sound-ableton' && abletonClickBufferRef.current) {
-        const source = audioContextRef.current.createBufferSource();
-        source.buffer = abletonClickBufferRef.current;
-        source.connect(audioContextRef.current.destination);
-        source.start(0);
+      } else if (soundType === 'sound-ableton') {
+        const bufferToPlay = isAccent ? buffersRef.current.abletonAccent : buffersRef.current.abletonNonAccent;
+        if (bufferToPlay) {
+          const source = audioContextRef.current.createBufferSource();
+          source.buffer = bufferToPlay;
+          source.connect(audioContextRef.current.destination);
+          source.start(0);
+        } else {
+          console.warn(`Ableton sound not loaded: ${isAccent ? 'Accent' : 'Non-Accent'}`);
+        }
       }
     }
-  };
+  }, [soundType]);
 
   useEffect(() => {
     audioContextRef.current = new window.AudioContext();
     loadAbletonClickSound();
-  }, []);
+  }, [loadAbletonClickSound]);
 
   useEffect(() => {
     if (isPlaying) {
       const interval = 60000 / bpm;
 
-      playClick();
+      setCurrentBeat(1);
+      playClick(true);
 
-      timerRef.current = setInterval(playClick, interval);
+      timerRef.current = setInterval(() => {
+        setCurrentBeat((prevBeat) => {
+          const nextBeat = (prevBeat % beatsPerMeasure) + 1;
+          playClick(nextBeat === 1);
+          return nextBeat;
+        });
+      }, interval);
     } else {
       if (timerRef.current) clearInterval(timerRef.current);
       timerRef.current = null;
+      setCurrentBeat(0);
     }
 
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPlaying, bpm, soundType]);
+  }, [isPlaying, bpm, soundType, playClick]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -110,7 +131,7 @@ const Metronome = () => {
   const handleTapTempo = () => {
     const now = Date.now();
 
-    if (!isPlaying) playClick();
+    if (!isPlaying) playClick(true);
 
     setTapTimes((prev) => {
       const updatedTaps = [...prev, now].slice(-5);
