@@ -6,8 +6,8 @@ const Metronome = () => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [bpm, setBpm] = useState(120);
   const [soundType, setSoundType] = useState('sound-native');
+  const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
   const [currentBeat, setCurrentBeat] = useState(0);
-  const beatsPerMeasure = 4;
 
   const [tapTimes, setTapTimes] = useState<number[]>([]);
   const tapTimeoutRef = useRef<NodeJS.Timeout | null>(null);
@@ -93,7 +93,7 @@ const Metronome = () => {
     return () => {
       if (timerRef.current) clearInterval(timerRef.current);
     };
-  }, [isPlaying, bpm, soundType, playClick]);
+  }, [isPlaying, bpm, soundType, beatsPerMeasure, playClick]);
 
   useEffect(() => {
     const handleKeyDown = (event: KeyboardEvent) => {
@@ -117,6 +117,13 @@ const Metronome = () => {
     const newBpm = Number(event.target.value);
     if (!isNaN(newBpm) && newBpm > 0) {
       setBpm(newBpm);
+    }
+  };
+
+  const handleBeatsPerMeasureChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newBeats = Number(event.target.value);
+    if (!isNaN(newBeats) && newBeats > 0) {
+      setBeatsPerMeasure(newBeats);
     }
   };
 
@@ -161,6 +168,12 @@ const Metronome = () => {
             onChange={handleBpmChange}
             min="1"
         />
+        <input
+            type="number"
+            value={beatsPerMeasure}
+            onChange={handleBeatsPerMeasureChange}
+            min="1"
+        />
         <button onClick={togglePlay}>
           {isPlaying ? 'Stop' : 'Start'}
         </button>
@@ -169,7 +182,7 @@ const Metronome = () => {
           <option value="sound-native">Native Synth</option>
           <option value="sound-ableton">Ableton Click</option>
         </select>
-        <p>{isPlaying ? `Playing at ${bpm} BPM` : 'Metronome stopped'}</p>
+        <p>{isPlaying ? `Playing at ${bpm} BPM - Beat ${currentBeat} of ${beatsPerMeasure}` : 'Metronome stopped'}</p>
       </div>
   );
 };
