@@ -1,6 +1,6 @@
 'use client';
 
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect, useRef, useState, useCallback} from 'react';
 
 const Metronome = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -14,7 +14,7 @@ const Metronome = () => {
   const timerRef = useRef<NodeJS.Timeout | null>(null);
   const abletonClickBufferRef = useRef<AudioBuffer | null>(null);
 
-  const loadAbletonClickSound = async () => {
+  const loadAbletonClickSound = useCallback(async () => {
     if (audioContextRef.current) {
       try {
         const response = await fetch('sounds/1_1.wav');
@@ -24,7 +24,7 @@ const Metronome = () => {
         console.error('Error loading Ableton click sound:', error);
       }
     }
-  };
+  }, []);
 
   const playClick = () => {
     if (audioContextRef.current) {
