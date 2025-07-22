@@ -9,7 +9,7 @@ const Metronome = () => {
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
   const [currentBeat, setCurrentBeat] = useState(0);
 
-  const [tapTimes, setTapTimes] = useState<number[]>([]);
+  const setTapTimes = useState<number[]>([])[1];
   const tapTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
   const audioContextRef = useRef<AudioContext | null>(null);
