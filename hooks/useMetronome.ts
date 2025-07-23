@@ -3,13 +3,13 @@ import { useAudioEngine } from '@/hooks/useAudioEngine';
 import { useTapTempo } from './useTapTempo';
 import { usePlaybackScheduler } from './usePlaybackScheduler';
 import { useKeyboardShortcuts } from './useKeyboardShortcuts';
+import {TimeSignature} from "@/types";
 
 export function useMetronome() {
     const [isPlaying, setIsPlaying] = useState(false);
     const [bpm, setBpm] = useState(120);
     const [soundType, setSoundType] = useState('sound-native');
-    const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
-    const [noteValue, setNoteValue] = useState(4);
+    const [timeSignature, setTimeSignature] = useState<TimeSignature>({ beatsPerMeasure: 4, beatUnit: 4 });
     const [currentBeat, setCurrentBeat] = useState(0);
 
     const { initAudio, playClick, loadSamples } = useAudioEngine(soundType);
@@ -22,7 +22,7 @@ export function useMetronome() {
     const { playTypes, setPlayTypes } = usePlaybackScheduler({
         isPlaying,
         bpm,
-        beatsPerMeasure,
+        timeSignature,
         playClick,
         setCurrentBeat,
     });
@@ -43,14 +43,12 @@ export function useMetronome() {
         isPlaying,
         bpm,
         soundType,
-        beatsPerMeasure,
-        noteValue,
+        timeSignature,
         playTypes,
         currentBeat,
         setBpm,
         setSoundType,
-        setBeatsPerMeasure,
-        setNoteValue,
+        setTimeSignature,
         setPlayTypes,
         togglePlay: () => setIsPlaying(prev => !prev),
         handleTapTempo,

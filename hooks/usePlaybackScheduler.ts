@@ -1,25 +1,32 @@
 import {useEffect, useRef, useState} from 'react';
-import {PlayType} from "@/types";
+import {PlayType, TimeSignature} from "@/types";
 
 export function usePlaybackScheduler({
                                          isPlaying,
                                          bpm,
-                                         beatsPerMeasure,
+                                         timeSignature,
                                          playClick,
                                          setCurrentBeat,
                                      }: {
     isPlaying: boolean;
     bpm: number;
-    beatsPerMeasure: number;
+    timeSignature: TimeSignature;
     playClick: (isAccent: boolean) => void;
     setCurrentBeat: (beat: number) => void;
 }) {
     const timerRef = useRef<NodeJS.Timeout | null>(null);
     const beatRef = useRef(1);
-    const playTypesRef = useRef<(PlayType)[]>(Array.from({ length: beatsPerMeasure }, (_, i) =>
+    const playTypesRef = useRef<(PlayType)[]>(Array.from({ length: timeSignature.beatsPerMeasure }, (_, i) =>
         i === 0 ? "accent" : "regular"
     ));
     const [playTypes, setPlayTypes] = useState(playTypesRef.current);
+
+    useEffect(() => {
+        playTypesRef.current = Array.from({ length: timeSignature.beatsPerMeasure }, (_, i) =>
+            i === 0 ? "accent" : "regular"
+        );
+        setPlayTypes(playTypesRef.current);
+    }, [timeSignature.beatsPerMeasure]);
 
     useEffect(() => {
         playTypesRef.current = playTypes;
@@ -42,7 +49,7 @@ export function usePlaybackScheduler({
         playClick(playTypesRef.current[0] === "accent");
 
         timerRef.current = setInterval(() => {
-            const nextBeat = (beatRef.current % beatsPerMeasure) + 1;
+            const nextBeat = (beatRef.current % timeSignature.beatsPerMeasure) + 1;
             beatRef.current = nextBeat;
             setCurrentBeat(nextBeat);
             if (playTypesRef.current[nextBeat - 1] !== "mute") {
@@ -56,7 +63,7 @@ export function usePlaybackScheduler({
                 timerRef.current = null;
             }
         };
-    }, [isPlaying, bpm, beatsPerMeasure, playClick, setCurrentBeat]);
+    }, [isPlaying, bpm, timeSignature, playClick, setCurrentBeat]);
 
     return { playTypes, setPlayTypes };
 }

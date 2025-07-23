@@ -10,8 +10,9 @@ const Metronome = () => {
     return (
         <div>
             <input type="number" value={metronome.bpm} onChange={e => metronome.setBpm(+e.target.value)} min="1"/>
-            <input type="number" value={metronome.beatsPerMeasure} onChange={e => metronome.setBeatsPerMeasure(+e.target.value)} min="1"/>
-            <select onChange={e => metronome.setNoteValue(+e.target.value)} value={metronome.noteValue}>
+            <input type="number" value={metronome.timeSignature.beatsPerMeasure} onChange={e => metronome.setTimeSignature({ ...metronome.timeSignature, beatsPerMeasure: +e.target.value })} min="1"/>
+            <select onChange={e => metronome.setTimeSignature({...metronome.timeSignature, beatUnit: +e.target.value})}
+                    value={metronome.timeSignature.beatUnit}>
                 <option value="2">/2</option>
                 <option value="4">/4</option>
                 <option value="8">/8</option>
@@ -25,11 +26,11 @@ const Metronome = () => {
             </select>
             <p>
             {metronome.isPlaying
-                    ? `Playing at ${metronome.bpm} BPM - Beat ${metronome.currentBeat} of ${metronome.beatsPerMeasure} in ${metronome.beatsPerMeasure}/${metronome.noteValue}`
+                    ? `Playing at ${metronome.bpm} BPM - Beat ${metronome.currentBeat} of ${metronome.timeSignature.beatsPerMeasure} in ${metronome.timeSignature.beatsPerMeasure}/${metronome.timeSignature.beatUnit}`
                     : 'Metronome stopped'}
             </p>
             <BeatDisplay
-                beatsPerMeasure={metronome.beatsPerMeasure}
+                beatsPerMeasure={metronome.timeSignature.beatsPerMeasure}
                 currentBeat={metronome.currentBeat}
                 playTypes={metronome.playTypes}
                 setPlayTypes={metronome.setPlayTypes}
