@@ -5,7 +5,8 @@ A modern, simple, and powerful web-based metronome. Available on GitHub Pages [h
 ## Features
 - Designed for ease of use for a clean and intuitive user experience.
 - Set tempo
-- Beat display
+- Interactive beat display
+  - Accent enable/disable
 - Basic meter customization
 - Tap tempo feature
 - Synthesizer click
@@ -14,9 +15,7 @@ A modern, simple, and powerful web-based metronome. Available on GitHub Pages [h
 - Keyboard shortcuts
 
 ### Planned
-- Accent enable/disable
 - Beat unit
-- Interactivity in beat display
 - Advanced meter customization
   - Preselctions
   - Custom input
