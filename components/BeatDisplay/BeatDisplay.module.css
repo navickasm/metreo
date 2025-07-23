@@ -1,0 +1,35 @@
+.beatDisplay {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.beat {
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  background-color: #3b3b3b;
+  border: 3px solid #858585;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.active {
+  background-color: #5f9ea0 !important;
+}
+
+.accent {
+  border-color: #3031a6;
+  background-color: #3031a6;
+}
+
+.regular {
+  border-color: #c64cbc;
+  background-color: #c64cbc;
+}
+
+.mute {
+  opacity: 0.4;
+}
