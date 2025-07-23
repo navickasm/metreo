@@ -7,6 +7,7 @@ const Metronome = () => {
   const [bpm, setBpm] = useState(120);
   const [soundType, setSoundType] = useState('sound-native');
   const [beatsPerMeasure, setBeatsPerMeasure] = useState(4);
+  const [noteValue, setNoteValue] = useState(4);
   const [currentBeat, setCurrentBeat] = useState(0);
 
   const setTapTimes = useState<number[]>([])[1];
@@ -127,6 +128,13 @@ const Metronome = () => {
     }
   };
 
+  const handleNoteValueChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    const newNoteValue = Number(event.target.value);
+    if (!isNaN(newNoteValue) && newNoteValue > 0) {
+      setNoteValue(newNoteValue);
+    }
+  };
+
   const handleSoundChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSoundType(event.target.value);
   };
@@ -174,6 +182,12 @@ const Metronome = () => {
             onChange={handleBeatsPerMeasureChange}
             min="1"
         />
+        <select onChange={handleNoteValueChange} value={noteValue}>
+          <option value="2">/2</option>
+          <option value="4">/4</option>
+          <option value="8">/8</option>
+          <option value="16">/16</option>
+        </select>
         <button onClick={togglePlay}>
           {isPlaying ? 'Stop' : 'Start'}
         </button>
@@ -182,7 +196,7 @@ const Metronome = () => {
           <option value="sound-native">Native Synth</option>
           <option value="sound-ableton">Ableton Click</option>
         </select>
-        <p>{isPlaying ? `Playing at ${bpm} BPM - Beat ${currentBeat} of ${beatsPerMeasure}` : 'Metronome stopped'}</p>
+        <p>{isPlaying ? `Playing at ${bpm} BPM - Beat ${currentBeat} of ${beatsPerMeasure} in ${beatsPerMeasure}/${noteValue}` : 'Metronome stopped'}</p>
       </div>
   );
 };
