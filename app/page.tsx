@@ -1,6 +1,7 @@
 'use client';
 
 import React, {useEffect, useRef, useState, useCallback} from 'react';
+import styles from './page.module.css';
 
 const Metronome = () => {
   const [isPlaying, setIsPlaying] = useState(false);
@@ -114,6 +115,17 @@ const Metronome = () => {
     };
   }, []);
 
+  useEffect(() => {
+    const beatDivs = document.querySelectorAll(`.${styles.beatDisplay} > div`);
+    beatDivs.forEach((div, index) => {
+      if (index === currentBeat - 1) {
+        div.classList.add(styles.beatDisplaySegmentActive);
+      } else {
+        div.classList.remove(styles.beatDisplaySegmentActive);
+      }
+    });
+  }, [currentBeat]);
+
   const handleBpmChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newBpm = Number(event.target.value);
     if (!isNaN(newBpm) && newBpm > 0) {
@@ -197,6 +209,11 @@ const Metronome = () => {
           <option value="sound-ableton">Ableton Click</option>
         </select>
         <p>{isPlaying ? `Playing at ${bpm} BPM - Beat ${currentBeat} of ${beatsPerMeasure} in ${beatsPerMeasure}/${noteValue}` : 'Metronome stopped'}</p>
+        <div className={styles.beatDisplay}>
+          {Array.from({ length: beatsPerMeasure }, (_, index) => (
+            <div key={index}><p>{index + 1}</p></div>
+          ))}
+        </div>
       </div>
   );
 };

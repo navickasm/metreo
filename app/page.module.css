@@ -1,0 +1,21 @@
+.beatDisplay {
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+}
+
+.beatDisplay > div {
+  width: 100%;
+  height: 100%;
+  color: #ffffff;
+  background-color: #3b3b3b;
+  border: 1px solid #858585;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.beatDisplay > .beatDisplaySegmentActive {
+  background-color: #5f9ea0;
+}

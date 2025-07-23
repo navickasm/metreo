@@ -5,22 +5,23 @@ A modern, simple, and powerful web-based metronome. Available on GitHub Pages [h
 ## Features
 - Designed for ease of use for a clean and intuitive user experience.
 - Set tempo
+- Beat display
+- Basic meter customization
 - Tap tempo feature
 - Synthesizer click
 - Custom clicks
-- "/4" time signature
 - Status display (primarily used for debugging)
 - Keyboard shortcuts
 
 ### Planned
 - Accent enable/disable
 - Beat unit
-- Meter customization
+- Interactivity in beat display
+- Advanced meter customization
   - Preselctions
   - Custom input
   - Compound meter (e.g. 7/8 3+2+2 vs 2+3+2)
 - Subdivision customization
-- Visualization of beats
 - Polyrhythms
   - Meter
   - Subdivision
