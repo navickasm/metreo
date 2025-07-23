@@ -19,7 +19,7 @@ export function useMetronome() {
         loadSamples();
     });
 
-    usePlaybackScheduler({
+    const { playTypes, setPlayTypes } = usePlaybackScheduler({
         isPlaying,
         bpm,
         beatsPerMeasure,
@@ -45,11 +45,13 @@ export function useMetronome() {
         soundType,
         beatsPerMeasure,
         noteValue,
+        playTypes,
         currentBeat,
         setBpm,
         setSoundType,
         setBeatsPerMeasure,
         setNoteValue,
+        setPlayTypes,
         togglePlay: () => setIsPlaying(prev => !prev),
         handleTapTempo,
     };

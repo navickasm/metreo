@@ -31,6 +31,8 @@ const Metronome = () => {
             <BeatDisplay
                 beatsPerMeasure={metronome.beatsPerMeasure}
                 currentBeat={metronome.currentBeat}
+                playTypes={metronome.playTypes}
+                setPlayTypes={metronome.setPlayTypes}
             />
         </div>
     );
