@@ -18,8 +18,8 @@ const Metronome = () => {
                 <option value="8">/8</option>
                 <option value="16">/16</option>
             </select>
-            <button onClick={metronome.togglePlay}>{metronome.isPlaying ? 'Stop' : 'Start'}</button>
-            <button onClick={metronome.handleTapTempo}>Tap Tempo</button>
+            <button onClick={metronome.togglePlay}>{metronome.isPlaying ? 'Stop' : 'Start'} (K)</button>
+            <button onClick={metronome.handleTapTempo}>Tap Tempo (T)</button>
             <select onChange={e => metronome.setSoundType(e.target.value)} value={metronome.soundType}>
                 <option value="sound-native">Native Synth</option>
                 <option value="sound-ableton">Ableton Click</option>
